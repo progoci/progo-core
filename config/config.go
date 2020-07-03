@@ -6,17 +6,21 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// Init loads a .env file in root directory.
-func Init(filepath string) {
+// Config is the configuration handler.
+type Config struct{}
+
+// New loads a .env file.
+func New(filepath string) (*Config, error) {
 	err := godotenv.Overload(filepath)
 
 	if err != nil {
-		panic("Could not load .env file" + err.Error())
+		return nil, err
 	}
+
+	return &Config{}, nil
 }
 
 // Get retrieves a environment variable.
-func Get(key string) string {
-
+func (Config) Get(key string) string {
 	return os.Getenv(key)
 }
